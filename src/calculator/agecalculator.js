@@ -5,6 +5,7 @@ import './calc.css';
 function AgeCalculator() {
   const [birthDate, setBirthDate] = useState('');
   const [age, setAge] = useState('');
+  const [errorMessage,setErrorMessage] = useState('');
 
   const handleBirthDateChange = (event) => {
     setBirthDate(event.target.value);
@@ -14,6 +15,10 @@ function AgeCalculator() {
     const currentDate = new Date();
     const selectedDate = new Date(birthDate);
 
+    if (selectedDate > currentDate) {
+      setAge('');
+      setErrorMessage('Please enter a valid date');
+    }
     if (!isNaN(selectedDate)) {
       const ageInMilliseconds = currentDate - selectedDate;
       const ageInYears = Math.floor(ageInMilliseconds / (1000 * 60 * 60 * 24 * 365));
@@ -35,7 +40,7 @@ function AgeCalculator() {
         onChange={handleBirthDateChange}
       />
       <button className = "btn btn-primary my-3" onClick={calculateAge}>Calculate</button>
-      {age !== '' && <p className='h3'>Your age is {age} years.</p>}
+      {errorMessage ?(<p className = "h3 text-danger">{errorMessage}</p>):(age !== '' && <p className='h3'>Your age is {age} years.</p>)}
     </div>
   );
 }
