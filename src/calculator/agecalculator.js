@@ -9,6 +9,8 @@ function AgeCalculator() {
 
   const handleBirthDateChange = (event) => {
     setBirthDate(event.target.value);
+    setErrorMessage('');
+    setAge('');
   };
 
   const calculateAge = () => {
@@ -28,6 +30,12 @@ function AgeCalculator() {
     }
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      calculateAge();
+    }
+  };
+
   return (
     <div className='calc'>
       <h1 className='calc-title'>Age Calculator</h1>
@@ -38,6 +46,7 @@ function AgeCalculator() {
         id="birthDate"
         value={birthDate}
         onChange={handleBirthDateChange}
+        onKeyDown={handleKeyDown}
       />
       <button className = "btn btn-primary my-3" onClick={calculateAge}>Calculate</button>
       {errorMessage ?(<p className = "h3 text-danger">{errorMessage}</p>):(age !== '' && <p className='h3'>Your age is {age} years.</p>)}
